@@ -58,18 +58,20 @@ from a CI service.
 
 In the Lambda Console, go to create a new Lambda Function. Use `Container image`
 as the source. Use the `Browse images` button to select the latest `lamrembg`
-image in your AWS account. Leave the architecture `x86_64` and continue.
+image in your AWS account. Leave the architecture `x86_64` and continue. Note:
+You may need to wait 15-20 seconds between steps while configuring the function
+manually in the Console for the updates to apply.
 
 Under Configuration / General Configuration, increase the memory limit to
 1792MB. It is my understanding that this is (as of Jan. 2023) the value
 corresponding to one full vCPU. Increase the runtime timeout to 30sec. Save.
 
-Under Configuraiton / Environment Variables, add a variable called
+Under Configuration / Environment Variables, add a variable called
 `NUMBA_DISABLE_JIT` and set it to `1`. This stops the `numba` library from
-trying to write to the Lambda read-only filesystem.
+trying to write to the Lambda read-only filesystem. Save.
 
-Go to the Test tab in the console. Create a new event and paste the following
-JSON test event in:
+Go to the Test tab for the function. Create a new event, and replace the
+hello-world JSON with the following test event:
 
 ```json
 {
@@ -80,7 +82,7 @@ JSON test event in:
 ```
 
 Save the event with a name of your choosing, and click `Test`. If it succeeds,
-you'll get a bunch of indescript Base64 text back. Hooray!
+you'll get a bunch of Base64 text back. Hooray!
 
 If you'd like to see the image, go to Configuration / Function URL, and click
 `Create Function URL` with `NONE` authentication. **Be aware**, you are opening
@@ -98,7 +100,8 @@ testing, this test image completed processing in about 2.3sec.
 ## License
 
 The example handler and Dockerfile provided here are licensed under an MIT-0
-license. Feel free to use and adapt for own purposes, commercial or otherwise.
+license. Feel free to use and adapt for your own purposes, commercial or
+otherwise.
 
 ## Future Directions / Open Questions
 
